@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+    deployer:
+        image: 5ndn/deployer:1.0
+        volumes:
+            - .:/app
+    web:
+        image: 5ndn/nginx:1.11
+        ports:
+            - 80:80
+        volumes:
+            - .:/var/www/html
+            - .docker/nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
+        links:
+            - php
+    php:
+        image: 5ndn/php-fpm:7.0
+        volumes:
+            - .:/app
+        ports:
+            - 9000:9000
+        volumes:
+            - .:/var/www/html
+        links:
+            - mysql
+            - redis
+            - memcache
+    mysql:
+        image: mysql:latest
+        ports:
+            - 3306:3306
+        volumes:
+            - .docker/mysql/data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+    node:
+        image: 5ndn/node:7.0
+        ports:
+            - 8888:8888
+        volumes:
+            - .:/usr/src/app
+        links:
+            - redis
+            - web
+        command: 'npm start'
+    redis:
+        image: redis:3.2
+        ports:
+            - 6379:6379
+        volumes:
+            - .docker/redis/data:/data
+    memcache:
+        image: memcached:1.4
+        ports:
+            - 11211:11211

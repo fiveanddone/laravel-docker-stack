@@ -1,0 +1,23 @@
+{
+	"appKey": "mkf2mpk9umli2ls2k7hoko3ccpok0h51kj00ceu7i2rjsqhf72a1jm4gjhcd",
+	"authHost": "http://web/",
+	"authEndpoint": "/broadcasting/auth",
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {
+			"host": "redis",
+			"port": 6379,
+			"db": 0
+		},
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": "",
+	"port": "8888",
+	"referrers": [],
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": ""
+}
